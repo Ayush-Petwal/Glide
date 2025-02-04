@@ -10,7 +10,7 @@ const connectDB = require('./db/db');
 connectDB()
 
 const userRoutes = require('./routes/user.routes');
-const captionRoutes = require('./routes/caption.routes');
+const captainRoutes = require('./routes/captain.routes');
 
 app.use(cors());
 app.use(express.json());
@@ -22,6 +22,6 @@ app.get('/', (req , res) => {
 })
 
 app.use('/users', userRoutes);
-app.use('/caption', captionRoutes)
+app.use('/captain', captainRoutes)
 
 module.exports = app;

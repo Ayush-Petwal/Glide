@@ -94,10 +94,10 @@ Requires a valid JWT token in either cookies or the `Authorization` header.
     - `createdAt` (string): Account creation date.
     - `updatedAt` (string): Last profile update date.
 
-## /caption/register Endpoint
+## /captain/register Endpoint
 
 ### Description
-Registers a new caption (driver) with the provided information.
+Registers a new captain (driver) with the provided information.
 
 ### HTTP Method
 `POST`
@@ -113,9 +113,9 @@ Registers a new caption (driver) with the provided information.
 - `vehicle.vehicleType` (string, must be one of: car, bike, auto)
 
 ### Status Codes
-- `201 Created` - Caption successfully registered.
+- `201 Created` - Captain successfully registered.
 - `400 Bad Request` - Missing or invalid fields.
-- `401 Unauthorized` - Caption with the same email already exists.
+- `401 Unauthorized` - Captain with the same email already exists.
 - `500 Internal Server Error` - Server error.
 
 ### Example Request
@@ -123,11 +123,11 @@ Registers a new caption (driver) with the provided information.
 ```json
 {
     "fullName": {
-        "firstName": "caption",
+        "firstName": "captain",
         "lastName": "third"
     },
-    "email": "caption3@email.com",
-    "password": "caption3@password",
+    "email": "captain3@email.com",
+    "password": "captain3@password",
     "vehicle": {
         "color": "white",
         "plate": "UK 07 BN 4248",
@@ -141,13 +141,13 @@ Registers a new caption (driver) with the provided information.
 
 ```json
 {
-    "message": "Caption created successfully",
+    "message": "Captain created successfully",
     "data": {
         "fullName": {
-            "firstName": "caption",
+            "firstName": "captain",
             "lastName": "third"
         },
-        "email": "caption3@email.com",
+        "email": "captain3@email.com",
         "password": "$2b$10$mEq7BMof1jR4gMf4h6UNuOpFhRtAkv2fzzp7R829NdnOKoa9B0pAm",
         "status": "inactive",
         "vehicle": {
@@ -161,3 +161,69 @@ Registers a new caption (driver) with the provided information.
     }
 }
 ```
+
+## /captain/login Endpoint
+
+### Description
+Logs in a captain with the provided credentials.
+
+### HTTP Method
+`POST`
+
+### Required Data
+- `email`: string, valid email address
+- `password`: string, minimum 8 characters
+
+### Status Codes
+- `200 OK` - Captain successfully logged in.
+- `400 Bad Request` - Missing or invalid fields.
+- `401 Unauthorized` - Invalid email or password.
+
+### Example Response
+
+- `captain` (object):
+    - `fullName` (object).
+        - `firstName` (string) :Captain's firstName.
+        - `lastName` (string) :Captain's lastName.
+    - `email` (string) :Captain's email.
+- `token` (string) : JWT Token
+
+## /captain/logout Endpoint
+
+### Description
+Logs out the authenticated captain by clearing the authentication token.
+
+### HTTP Method
+`GET`
+
+### Authentication
+Requires a valid JWT token in either cookies or the `Authorization` header.
+
+### Status Codes
+- `200 OK` - Captain successfully logged out.
+- `401 Unauthorized` - Missing or invalid token.
+
+## /captain/profile Endpoint
+
+### Description
+Fetches the profile information of the authenticated captain.
+
+### HTTP Method
+`GET`
+
+### Authentication
+Requires a valid JWT token in either cookies or the `Authorization` header.
+
+### Status Codes
+- `200 OK` - Captain profile successfully retrieved.
+- `401 Unauthorized` - Missing or invalid token.
+
+### Example Response
+
+- `captain` (object):
+    - `fullName` (object):
+        - `firstName` (string): Captain's first name.
+        - `lastName` (string): Captain's last name.
+    - `email` (string): Captain's email.
+    - `createdAt` (string): Account creation date.
+    - `updatedAt` (string): Last profile update date.
