@@ -53,3 +53,43 @@ Logs in a user with the provided credentials.
         - `lastName` (string) :User's lastName.
     - `email` (string) :User's email.
 - `token` (string) : JWT Token
+
+## /users/logout Endpoint
+
+### Description
+Logs out the authenticated user by clearing the authentication token.
+
+### HTTP Method
+`GET`
+
+### Authentication
+Requires a valid JWT token in either cookies or the `Authorization` header.
+
+### Status Codes
+- `200 OK` - User successfully logged out.
+- `401 Unauthorized` - Missing or invalid token.
+
+## /users/profiles Endpoint
+
+### Description
+Fetches the profile information of the authenticated user.
+
+### HTTP Method
+`GET`
+
+### Authentication
+Requires a valid JWT token in either cookies or the `Authorization` header.
+
+### Status Codes
+- `200 OK` - User profile successfully retrieved.
+- `401 Unauthorized` - Missing or invalid token.
+
+### Example Response
+
+- `user` (object):
+    - `fullName` (object):
+        - `firstName` (string): User's first name.
+        - `lastName` (string): User's last name.
+    - `email` (string): User's email.
+    - `createdAt` (string): Account creation date.
+    - `updatedAt` (string): Last profile update date.
