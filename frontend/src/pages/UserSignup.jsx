@@ -1,31 +1,52 @@
 import React, { useState } from "react";
 import glideLogo from "../assets/glide_logo.png"; // Ensure the path is correct
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
+import axios from "axios";
+import { UserDataContext }  from "../context/UserContext";
 
 const UserSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [userData, setUserData] = useState({});
+  // const [userData, setUserData] = useState({});
 
-  const submitHandler = (e) => {
+  const navigate = useNavigate();
+
+  const { userData, setUserData } = React.useContext(UserDataContext);
+
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    setUserData({
+    const newUser = {
       fullName : {
         firstName: firstName,
         lastName: lastName,
       },
       email: email,
-      password: password,
-    });
+      password: password
+    }
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser);
+
+      if(response.status === 201){
+        const data  = response.data;
+
+        setUserData(data.user)
+
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Error during user registration:", error);
+    }
 
     setEmail("");
     setPassword("");
     setFirstName("");
     setLastName("");
   };
+
 
   return (
     <div className="p-7 flex flex-col justify-between h-screen">

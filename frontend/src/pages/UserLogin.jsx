@@ -1,18 +1,38 @@
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import glideLogo from "../assets/glide_logo.png"; // Ensure the path is correct
 import { Link } from "react-router-dom";
+import { UserDataContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData , setUserData] = useState({});
+  //const [userData , setUserData] = useState({});
 
-  const submitHandler = (e) => {
+  const { userData, setUserData } = useContext(UserDataContext);
+
+  const navigate = useNavigate();
+
+
+  const submitHandler = async (e) => {
     e.preventDefault();
-    setUserData({
-      email : email,
-      password : password
-    })
+    const userData = {
+      email: email,
+      password: password
+    }
+
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData);
+      if(response.status === 200){
+        const data = response.data;
+        setUserData(data.user);
+        navigate('/home');
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
+
     setEmail("");
     setPassword("");
   }
